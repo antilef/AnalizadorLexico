@@ -1,0 +1,159 @@
+
+import java_cup.runtime.*;
+import java.io.*;
+import java.io.BufferedReader;
+
+action code 
+{:
+    Draw Dibujar = new Draw();
+
+      public void salir(){
+				System.out.println("Presione cualquier tecla para Terminar.");
+				try{
+					InputStreamReader reader = new InputStreamReader(System.in);
+					BufferedReader buffer = new BufferedReader(reader);
+          buffer.readLine();
+				}
+				catch (Exception e) {
+					System.exit(0);
+				}
+				System.exit(0);	
+      }
+:}
+parser code {:
+
+	static TablaSimbolos tabla = new TablaSimbolos();
+    static parser analizador;
+
+	public static void main (String argv[]) throws Exception
+	{
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+		System.out.println("|                  Authors                     |");
+		System.out.println("|           Angelo - Heinz - Francisco         |");
+		System.out.println("|                                              |");
+		System.out.println("|                 Teacher                      |");
+		System.out.println("|           Maria E. de la Maza W.             |");
+		System.out.println("|                                              |");
+		System.out.println("|               COMPILADORES                   |");
+		System.out.println("|                                              |");
+		System.out.println("|                   2018                       |");
+		System.out.println("<<<<<<<<<<<<<<<<<<<<< = >>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("Iniciando, espere un momento...");
+		
+		analizador = new parser(new Analizador_Flexiquito(new InputStreamReader(System.in), tabla));
+		try
+		{
+		  System.out.println("kiooooooo");
+		  analizador.parse();
+		  tabla.imprimir();
+		}
+		catch(Exception e)
+		{
+		  e.printStackTrace();
+		  System.out.println("Error fatal");
+		}
+	} 
+
+    /**Metodo al que se llama automáticamente ante algún error sintactico.*/
+    public void syntax_error(Symbol s){
+        System.out.println("Error en la Línea " + (s.right+1) +" Columna "+s.left+ ". Identificador "
+        +s.value + " no reconocido." );
+    }
+
+    /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
+    errores.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error en la Línea " + (s.right+1)+ "Columna "+s.left+". Identificador " +
+        s.value + " no reconocido.");
+    }
+:};
+
+        // Codigo java
+terminal COMA, POS, DAVALOR, IGUAL, PARENTESIS_ABIERTO, PARENTESIS_CERRADO, COLOR;
+terminal EDITAR, TERMINO, E_SL;
+
+terminal String ENTERO, DIRECCION, COLORES ;
+
+terminal Simbolo IDENTIFICADOR ;
+
+non terminal PROG, INST, ASIG_COLOR, ASIG_VALOR, ASIG_POS, MOVER,TERMINAR ;
+non terminal String VALOR, COLO, VARIABLE;
+
+start with PROG;
+
+
+// GRAMATICA
+
+PROG ::= EDITAR  E_SL INST TERMINAR E_SL {: salir(); :} ;
+
+INST ::=   ASIG_COLOR  E_SL INST
+         | ASIG_POS  E_SL INST
+         | MOVER  E_SL INST
+         | ASIG_VALOR  E_SL INST
+		 | TERMINAR E_SL
+         ;
+
+TERMINAR ::= TERMINO {: salir(); :}
+		;
+
+ASIG_COLOR ::= COLOR  PARENTESIS_ABIERTO  COLO:c   PARENTESIS_CERRADO {: 
+																			try{
+																				System.out.println("asignando color...." + c +";") ;
+																				Dibujar.setColor(c);  
+																			}
+																			catch(NullPointerException e)
+																			{
+																				System.out.println("Error: Color no definido");
+																			}
+																			:};
+
+ASIG_VALOR ::= DAVALOR  E_SL  IDENTIFICADOR:I  IGUAL  VARIABLE:v  
+			{:
+				RESULT = v;
+				I.valor = v;
+				System.out.println("Davalor....v:" + v + "; ");
+			:}
+			;
+
+VARIABLE ::= ENTERO:e {: RESULT = e; :}
+		  | COLORES:c {: RESULT = c; :}
+		;
+
+
+ASIG_POS ::= POS PARENTESIS_ABIERTO  VALOR:v1 COMA VALOR:v2    PARENTESIS_CERRADO  
+			{:
+				System.out.println("posicion....v1:" + v1 + ";...v2:"+ v2 +";");
+				Dibujar.setPos(Integer.valueOf(v1),Integer.valueOf(v2));
+			:}
+			;
+
+MOVER ::=   DIRECCION:d  PARENTESIS_ABIERTO  VALOR:v   PARENTESIS_CERRADO 
+			{:
+			
+				System.out.println("moviendo a "+d+" ....valor:" + v + ";");
+				Dibujar.draw(d,Integer.valueOf(v));
+			:}
+           ;
+
+VALOR ::=   IDENTIFICADOR:I {: RESULT = I.valor; :}	
+           | ENTERO:e	 {: RESULT = e; :}
+           ;
+    
+    COLO ::=   COLORES:C1 {:RESULT = C1;  :}	
+          | IDENTIFICADOR:I 	{: RESULT = I.valor; :}
+          ;
+
+/*NUMERO ::= ENTERO:n {:
+				try{
+					
+					Dibujar.setColor("rojo");
+					System.out.println("ahhhhh: "+n+"k");
+					Dibujar.drawRightLinea(0,0,Integer.valueOf(n),0);
+				}
+				catch(NumberFormatException e){
+					System.out.println("Debe ingresar valores numericos");
+				} 
+				:};
+
+
+/* 	COMPLETAR ESTA WEA HEINZSSIANO	*/ 
