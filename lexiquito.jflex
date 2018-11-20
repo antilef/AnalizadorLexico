@@ -41,8 +41,8 @@ LineTerminator = \r|\n|\r\n
 /*  REGLAS LEXICAS */
 
 
- <YYINITIAL> "editar"       { System.out.println("token editar"); return new Symbol(sym.EDITAR); }
- <YYINITIAL> "termino"      { System.out.println("token termino");return new Symbol(sym.TERMINO); }
+ <YYINITIAL> "editar"       { return new Symbol(sym.EDITAR); }
+ <YYINITIAL> "termino"      { return new Symbol(sym.TERMINO); }
  <YYINITIAL> "pos"          { return new Symbol(sym.POS); }
  <YYINITIAL> "color"        { return new Symbol(sym.COLOR); }
  <YYINITIAL> "davalor"      { return new Symbol(sym.DAVALOR); }
@@ -60,9 +60,9 @@ LineTerminator = \r|\n|\r\n
                             return new Symbol(sym.IDENTIFICADOR, s);
                             }
 
- {numero}                   { System.out.println("token entero");return new Symbol(sym.ENTERO, new String(yytext())); }
+ {numero}                   { return new Symbol(sym.ENTERO, new String(yytext())); }
 
  [ \t\r\n\f] 		{ return new Symbol(sym.E_SL); }
 
 
-.                           { System.out.println("Desconocido"); /* Token Desconocido de acuerdo a la Gramatica */}
+.                           { System.out.println("Instrucción desconocida"); /* Token Desconocido de acuerdo a la Gramatica */}

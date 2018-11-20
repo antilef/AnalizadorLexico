@@ -45,8 +45,6 @@ public class Draw extends JFrame {
       int hreal = height - (insets.top + insets.bottom);
       xfix = (int)((width - wreal)/2);
       yfix = (int)((height - hreal)- xfix);
-      Debug(xfix+" "+yfix);
-    System.out.println("Cargando Entorno Grafico...");
     System.out.println("Ingrese Programa:");
 
     //Doble Buffer
@@ -64,7 +62,6 @@ public class Draw extends JFrame {
   //Cambia el Color
   public void setColor(String color)
   {
-    Debug("Color");
     if(color.equals("rojo")) this.colorActual = Color.RED;
     else if(color.equals("verde")) this.colorActual = Color.GREEN;
     else if(color.equals("azul")) this.colorActual = Color.BLUE;
@@ -73,10 +70,9 @@ public class Draw extends JFrame {
     this.repaint();
   }
 
-  //Dibuja una Linea
+  //Recibir petición de dibujar
   public void draw(String direccion, int movimiento)
   {
-    Debug("Linea");
     switch (direccion){
       case "arr":
         this.y2 = -1*movimiento;
@@ -119,7 +115,7 @@ public class Draw extends JFrame {
     }
     catch(Exception e)
     {	
-      Debug("Cargando...");
+      System.out.println("Cargando...");
     }
 
   } 
@@ -130,10 +126,10 @@ public class Draw extends JFrame {
     g2.setColor(this.colorActual);
     //Antialiasing
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    //Gruesor del borde de las lineas
+    //Grosor del borde de las lineas
     g2.setStroke(new BasicStroke(2.0f));
 
-    //Acciones de Dibujar
+    //Dibujar:
     switch(this.Dibujar)
     {
       case 1: g2.drawLine(this.x1, this.y1, this.x1+this.x2,this.y1+ this.y2);x1=x1+x2; y1=y1+y2; break;
