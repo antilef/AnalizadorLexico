@@ -33,7 +33,7 @@ public class Draw extends JFrame {
     setSize( width, height );
 
     //Fondo
-    this.setBackground(Color.WHITE);
+    this.setBackground(Color.BLACK);
 
     //Salir
     this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -54,6 +54,7 @@ public class Draw extends JFrame {
     else if(color.equals("verde")) this.colorActual = Color.GREEN;
     else if(color.equals("azul")) this.colorActual = Color.BLUE;
     else if(color.equals("amarillo")) this.colorActual = Color.YELLOW;
+    else if(color.equals("blanco")) this.colorActual = Color.WHITE;
     else System.out.println("Error - Color no existe");
     this.repaint();
   }
