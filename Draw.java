@@ -14,8 +14,8 @@ public class Draw extends JFrame {
   int x1 = 20;
   int x2 = 20;
   int x3;
-  int y1 = 20;
-  int y2 = 20;
+  int y1 = 0;
+  int y2 = 0;
   int y3;
   int r;
   int xfix;
