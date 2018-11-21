@@ -39,24 +39,12 @@ public class Draw extends JFrame {
     this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     setVisible( true );
 
-    //Fix de Area de Dibujo
-    Insets insets = this.getInsets();
-      int wreal = width - (insets.left + insets.right);
-      int hreal = height - (insets.top + insets.bottom);
-      xfix = (int)((width - wreal)/2);
-      yfix = (int)((height - hreal)- xfix);
     System.out.println("Ingrese Programa:");
 
     //Doble Buffer
     createBufferStrategy(2);
     bf = this.getBufferStrategy();
     
-  }
-
-  public void Debug(String out)
-  {
-    if(this.debug)    
-      System.out.println("Debug: "+out);
   }
 
   //Cambia el Color
@@ -73,21 +61,22 @@ public class Draw extends JFrame {
   //Recibir petición de dibujar
   public void draw(String direccion, int movimiento)
   {
+    int cm = 44;
     switch (direccion){
       case "arr":
-        this.y2 = -1*movimiento;
+        this.y2 = -1*movimiento * cm;
         this.x2=0;
         break;
       case "aba":
-        this.y2 = movimiento;
+        this.y2 = movimiento * cm;
         this.x2=0;
         break;
       case "der":
-        this.x2 = movimiento;
+        this.x2 = movimiento * cm;
         this.y2=0;
         break;
       case "izq":
-        this.x2 = -1*movimiento;
+        this.x2 = -1*movimiento * cm;
         this.y2=0;
         break;
     }
@@ -96,8 +85,8 @@ public class Draw extends JFrame {
   }
 
   public void setPos(int x,int y){
-    this.x1=x;
-    this.y1=y;
+    this.x1=x*44;
+    this.y1=y*44;
   }
 
 
